@@ -14,3 +14,12 @@
       PORTS: "{{marathon_lb_ports}}"
   tags: marathon-lb
 
+
+- name: register marathon-lb with an http check
+  consul:
+    service_name: "marathon-lb-{{marathon_lb_group}}"
+    service_address: "{{ansible_default_ipv4.address}}"
+    service_port: 9090
+    interval: 60s
+    http: "http://{{ansible_default_ipv4.address}}:9090/_haproxy_health_check"
+  tags: marathon-lb
